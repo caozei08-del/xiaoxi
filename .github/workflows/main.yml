@@ -1,0 +1,43 @@
+姓名: Android CI
+
+在……之上:
+推:
+分支机构: [ "主要" ]
+pull_request:
+分支机构: [ "主要" ]
+
+工作:
+建立:
+连续的：Ubuntu-最新
+权限:               # 👈 显式授权
+内容: 写
+
+步骤:
+      - uses: 操作/结帐@v4
+
+      - 姓名: 设置JDK17
+uses: 操作/设置-Java@v4
+和……一起:
+java版: '17'
+分布: 'temurin'
+缓存: 格拉德尔
+
+-姓名: 授予gradlew的执行权限
+跑: chmod+x gradlew
+
+-姓名: 构建版本安装包
+跑: ./gradlew装配释放
+
+      #只在push时发行；PR时跳过
+      - 姓名: 释放
+如果: github.event_name=='推'
+uses: softprops/action-gh-release@v2
+和……一起:
+tag_name: v1.0.${{github.run_number}}
+姓名: 版本v1.0.${{github.run_number}}
+文件: app/build/outputs/apk/release/app-release.apk
+生成发布注释: 正确
+草案: 假的
+预发行: 假的
+env:
+GitHub_TOKEN: ${{secrets.GITHUB_TOKEN}}
